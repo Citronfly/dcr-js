@@ -449,7 +449,7 @@ export function alignTrace(
     // Event is enabled, execute it and remove it from trace
     if (traceLen > 0) {
       try {
-        for (const event of graph.labelMapInv[trace[0]]) {
+        for (const event of graph.labelMapInv[trace[0]] ?? []) {
           if (isEnabled(event, graph)) {
             const alignment = newGraphEnv(graph, () => {
               execute(event, graph);
@@ -491,7 +491,7 @@ export function alignTrace(
     if (pruning && maxCost === Infinity && context) {
       if (traceLen > 0) {
         let isGood = false;
-        for (const event of graph.labelMapInv[trace[0]]) {
+        for (const event of graph.labelMapInv[trace[0]] ?? []) {
           isGood = isGood || canBeExecuted(event, graph, context);
         }
         if (!isGood) {
@@ -536,16 +536,27 @@ export function alignTrace(
     return bestAlignment;
   };
 
-  maxCost =
-    toDepth !== Infinity
-      ? toDepth
-      : trace
-        .map((event) => costFun("trace-skip", event))
-        .reduce((acc, cur) => acc + cur, 0) + alignTraceLabel([], graph).cost;
+  // Skipping the whole trace and then moving the model to an accepting state is always an alignment.
+  // Its cost is the starting bound, and the search only returns alignments strictly below the bound.
+  let skipAll: Alignment = { cost: Infinity, trace: [] };
+  if (toDepth !== Infinity) {
+    maxCost = toDepth;
+  } else {
+    const toAccepting = alignTraceLabel([], graph);
+    skipAll = {
+      cost:
+        trace
+          .map((event) => costFun("trace-skip", event))
+          .reduce((acc, cur) => acc + cur, 0) + toAccepting.cost,
+      trace: toAccepting.trace,
+    };
+    maxCost = skipAll.cost;
+  }
 
   for (let i = 0; i <= trace.length; i++) {
     alignState[i] = {};
   }
 
-  return alignTraceLabel(trace, graph, 0);
+  const best = alignTraceLabel(trace, graph, 0);
+  return best.cost < skipAll.cost ? best : skipAll;
 }
