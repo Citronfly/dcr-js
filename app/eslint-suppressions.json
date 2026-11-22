@@ -1,0 +1,65 @@
+{
+  "src/components/ConformanceCheckingState.tsx": {
+    "react-hooks/preserve-manual-memoization": {
+      "count": 4
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/components/EventLogGenerationState.tsx": {
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/components/ModelerState.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    },
+    "@typescript-eslint/no-unused-vars": {
+      "count": 1
+    },
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/components/ReactiveModeler.tsx": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 1
+    }
+  },
+  "src/components/SimulatorState.tsx": {
+    "react-hooks/immutability": {
+      "count": 4
+    },
+    "react-hooks/preserve-manual-memoization": {
+      "count": 16
+    },
+    "react-hooks/refs": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/utilComponents/ConformanceUtil.tsx": {
+    "react-refresh/only-export-components": {
+      "count": 2
+    }
+  },
+  "src/utilComponents/useBPMN.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  },
+  "src/utilComponents/usePyodide.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 4
+    }
+  },
+  "src/utilComponents/useSMVExport.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 2
+    }
+  }
+}
