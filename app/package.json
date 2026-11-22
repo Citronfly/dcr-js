@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "predeploy": "tsc -b && vite build"
+    "predeploy": "tsc -b && vite build",
+    "lint": "eslint ."
   },
   "dependencies": {
     "diagram-js": "^15.2.4",

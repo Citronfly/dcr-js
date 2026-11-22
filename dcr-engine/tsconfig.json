@@ -7,12 +7,16 @@
       "DOM"
     ],
     /* Modules */
-    "module": "commonjs",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "types": ["node"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     /* Type Checking */
     "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true
-  }
+  },
+  "include": ["src", "features", "index.ts"]
 }
