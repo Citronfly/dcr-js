@@ -1,6 +1,6 @@
 # Testing
 
-The project uses npm workspaces (`app`, `dcr-engine`, `modeler`) and Vitest. Install with `npm ci`, using Node 26 (see `.nvmrc`; Node 22.12 or newer works).
+The project uses npm workspaces (`app`, `dcr-engine`, `modeler`) and Vitest. Install with `npm ci`, using Node 26 (see `.nvmrc`). Node `^22.22.2`, `^24.15` or 26+ also works.
 
 ## Commands
 
@@ -49,12 +49,16 @@ Available steps (in `dcr-engine/features/steps/dcr.steps.ts`):
 - `Given the API is "plain" | "S"`
 - `Given a graph with events "A, B"`
 - `Given "A" is a/an condition | response | include | exclude | milestone for "B"`
-- `Given "A" is excluded`
-- `Given "A" is already pending`
+- `Given "A" is initially excluded`
+- `Given "A" is initially pending`
 - `When "A" is executed`
 - `Then "A" is enabled`, `Then "A" is not enabled`
 - `Then "A" is pending`, `Then "A" is not pending`
+- `Then "A" is included`, `Then "A" is not included`
+- `Then "A" has been executed`
 - `Then the graph is accepting`, `Then the graph is not accepting`
+
+Quickpickle ignores the Given/When/Then keyword when matching a step. So setup steps say "initially", and a new step must never read like an assertion: otherwise a `Then` line could change the graph instead of checking it.
 
 Unit tests can build graphs with the same helpers: `emptyGraph(events)` and `addRelation(graph, type, from, to)` from `dcr-engine/features/steps/graph.ts`.
 

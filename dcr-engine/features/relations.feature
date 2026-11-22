@@ -23,7 +23,7 @@ Feature: DCR relations
     Given the API is "<api>"
     And a graph with events "A, B"
     And "A" is a condition for "B"
-    And "A" is excluded
+    And "A" is initially excluded
     Then "B" is enabled
 
     Examples:
@@ -63,7 +63,7 @@ Feature: DCR relations
     Given the API is "<api>"
     And a graph with events "A, B"
     And "A" is an include for "B"
-    And "B" is excluded
+    And "B" is initially excluded
     Then "B" is not enabled
     When "A" is executed
     Then "B" is enabled
@@ -104,7 +104,7 @@ Feature: DCR relations
     And a graph with events "A, B"
     And "A" is an include for "B"
     And "A" is an exclude for "B"
-    And "B" is excluded
+    And "B" is initially excluded
     When "A" is executed
     Then "B" is enabled
 
@@ -117,7 +117,7 @@ Feature: DCR relations
     Given the API is "<api>"
     And a graph with events "A, B"
     And "A" is a milestone for "B"
-    And "A" is already pending
+    And "A" is initially pending
     Then "B" is not enabled
     When "A" is executed
     Then "B" is enabled
@@ -131,9 +131,23 @@ Feature: DCR relations
     Given the API is "<api>"
     And a graph with events "A, B"
     And "A" is a milestone for "B"
-    And "A" is already pending
-    And "A" is excluded
+    And "A" is initially pending
+    And "A" is initially excluded
     Then "B" is enabled
+
+    Examples:
+      | api   |
+      | plain |
+      | S     |
+
+  Scenario Outline: Executing an event records it and an exclude removes the target from the included set (<api>)
+    Given the API is "<api>"
+    And a graph with events "A, B"
+    And "A" is an exclude for "B"
+    Then "B" is included
+    When "A" is executed
+    Then "A" has been executed
+    And "B" is not included
 
     Examples:
       | api   |

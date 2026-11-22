@@ -29,11 +29,13 @@ Given("{string} is a(n) {word} for {string}", (w: World, from: string, type: str
   addRelation(w.graph, type as RelationType, from, to);
 });
 
-Given("{string} is excluded", (w: World, e: string) => {
+// Step keywords (Given/When/Then) are ignored when matching, so setup phrases
+// say "initially" and must never read like an assertion.
+Given("{string} is initially excluded", (w: World, e: string) => {
   w.graph.marking.included.delete(e);
 });
 
-Given("{string} is already pending", (w: World, e: string) => {
+Given("{string} is initially pending", (w: World, e: string) => {
   w.graph.marking.pending.set(e, undefined);
 });
 
@@ -56,6 +58,18 @@ Then("{string} is pending", (w: World, e: string) => {
 
 Then("{string} is not pending", (w: World, e: string) => {
   expect(w.graph.marking.pending.has(e)).toBe(false);
+});
+
+Then("{string} is included", (w: World, e: string) => {
+  expect(w.graph.marking.included.has(e)).toBe(true);
+});
+
+Then("{string} is not included", (w: World, e: string) => {
+  expect(w.graph.marking.included.has(e)).toBe(false);
+});
+
+Then("{string} has been executed", (w: World, e: string) => {
+  expect(w.graph.marking.executed.has(e)).toBe(true);
 });
 
 Then("the graph is accepting", (w: World) => {

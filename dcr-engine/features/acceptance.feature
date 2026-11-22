@@ -14,7 +14,7 @@ Feature: Accepting markings
   Scenario Outline: A pending included event makes the graph not accepting (<api>)
     Given the API is "<api>"
     And a graph with events "A"
-    And "A" is already pending
+    And "A" is initially pending
     Then the graph is not accepting
 
     Examples:
@@ -25,8 +25,8 @@ Feature: Accepting markings
   Scenario Outline: A pending excluded event does not block acceptance (<api>)
     Given the API is "<api>"
     And a graph with events "A"
-    And "A" is already pending
-    And "A" is excluded
+    And "A" is initially pending
+    And "A" is initially excluded
     Then the graph is accepting
 
     Examples:
@@ -38,7 +38,7 @@ Feature: Accepting markings
     Given the API is "<api>"
     And a graph with events "A, B"
     And "A" is an exclude for "B"
-    And "B" is already pending
+    And "B" is initially pending
     Then the graph is not accepting
     When "A" is executed
     Then the graph is accepting

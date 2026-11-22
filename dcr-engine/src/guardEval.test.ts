@@ -12,16 +12,18 @@ describe("evaluateGuard", () => {
     expect(evaluateGuard("  ", {})).toBe(true);
   });
 
-  // A malformed guard, or one over an unknown variable, silently evaluates to
-  // false: a guarded condition is then ignored and a guarded response, include
-  // or exclude does nothing. Documented current behaviour, reported as a finding.
-  it("evaluates a malformed guard to false without reporting it", () => {
+  // Known issue: a malformed guard is evaluated on its longest valid prefix and
+  // the rest is ignored, so it silently comes out true or false. Nothing
+  // reports it, and the catch block in evaluateGuard is unreachable.
+  it("evaluates a malformed guard on its valid prefix without reporting it", () => {
+    expect(evaluateGuard("x 5", { x: 1 })).toBe(true);
     expect(evaluateGuard("x >", { x: 1 })).toBe(false);
-    expect(evaluateGuard("x > > 5", { x: 1 })).toBe(false);
+    expect(evaluateGuard("x > 5 junk", { x: 10 })).toBe(true);
   });
 
-  it("evaluates a guard over an unknown variable to false", () => {
+  it("evaluates a guard over an unknown variable without reporting it", () => {
     expect(evaluateGuard("y > 5", { x: 1 })).toBe(false);
+    expect(evaluateGuard("not y > 5", { x: 1 })).toBe(true);
   });
 });
 

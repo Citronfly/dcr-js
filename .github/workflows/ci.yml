@@ -67,13 +67,11 @@ jobs:
           name: coverage-report
           path: coverage/
 
+  # Replays static.yml: same runner-default Node and the same install command.
   deploy-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
-        with:
-          node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npm run predeploy
+      - run: npm install
+      - run: cd app && npm run predeploy
