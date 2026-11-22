@@ -10,7 +10,7 @@ The project uses npm workspaces (`app`, `dcr-engine`, `modeler`) and Vitest. Ins
 | `npm run test:watch` | Re-runs tests on save |
 | `npm run coverage` | Runs the tests with coverage; HTML report in `coverage/index.html` |
 | `npx vitest run --project engine-unit` | Runs one project (see below) |
-| `npm run typecheck` | Type-checks `dcr-engine` and `app` |
+| `npm run typecheck` | Type-checks `dcr-engine`, `app` and the Vitest configs |
 | `npm run lint` | Lints `app` |
 
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, tests with coverage, and the production build on every pull request.
@@ -67,5 +67,6 @@ Unit tests can build graphs with the same helpers: `emptyGraph(events)` and `add
 - **Known bugs:** don't fix engine behaviour in a test PR. Tag the scenario `@fails`, or use `it.fails` in a unit test, with a comment saying what is wrong. The test turns red once someone fixes the bug, which reminds them to remove the marker.
 - **DOM:** files that need a DOM in the engine (the `DOM*StreamParser`s) start with `// @vitest-environment happy-dom`.
 - **App component tests:** mock the diagram editor with `vi.mock("modeler")`, because jsdom can't lay out SVG. Mock `fetch` for components that load files (for example `Examples.tsx`).
+- **Lint:** the errors that were already in `app` are listed in `app/eslint-suppressions.json`, so only new errors fail `npm run lint`. After fixing suppressed errors, run `npx eslint --prune-suppressions` in `app` and commit the updated file.
 - **Coverage only goes up:** `vitest.config.ts` sets a minimum per package. When your tests raise coverage, raise the numbers to the new values rounded down. Never lower them.
 - **End-to-end tests** are not set up yet. When they are added, reuse the Playwright that `bench/` already uses.

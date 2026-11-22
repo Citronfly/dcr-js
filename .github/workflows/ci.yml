@@ -26,8 +26,6 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    # Report-only: main already has 43 lint errors in app/. Make this blocking once they are fixed.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -46,21 +44,10 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Tests with coverage
-        shell: bash
-        run: |
-          set -o pipefail
-          npm run coverage | tee coverage-output.txt
+      - run: npm run coverage
       - name: Coverage summary
-        if: always()
-        shell: bash
-        run: |
-          {
-            echo '### Coverage'
-            echo '```'
-            sed -n '/Coverage summary/,/^=*$/p' coverage-output.txt
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+        if: always() && hashFiles('coverage/coverage-summary.json') != ''
+        run: node scripts/coverage-summary.mjs
       - uses: actions/upload-artifact@v7
         if: always()
         with:
