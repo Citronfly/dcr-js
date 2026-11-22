@@ -536,16 +536,27 @@ export function alignTrace(
     return bestAlignment;
   };
 
-  maxCost =
-    toDepth !== Infinity
-      ? toDepth
-      : trace
-        .map((event) => costFun("trace-skip", event))
-        .reduce((acc, cur) => acc + cur, 0) + alignTraceLabel([], graph).cost;
+  // Skipping the whole trace and then moving the model to an accepting state is always an alignment.
+  // Its cost is the starting bound, and the search only returns alignments strictly below the bound.
+  let skipAll: Alignment = { cost: Infinity, trace: [] };
+  if (toDepth !== Infinity) {
+    maxCost = toDepth;
+  } else {
+    const toAccepting = alignTraceLabel([], graph);
+    skipAll = {
+      cost:
+        trace
+          .map((event) => costFun("trace-skip", event))
+          .reduce((acc, cur) => acc + cur, 0) + toAccepting.cost,
+      trace: toAccepting.trace,
+    };
+    maxCost = skipAll.cost;
+  }
 
   for (let i = 0; i <= trace.length; i++) {
     alignState[i] = {};
   }
 
-  return alignTraceLabel(trace, graph, 0);
+  const best = alignTraceLabel(trace, graph, 0);
+  return best.cost < skipAll.cost ? best : skipAll;
 }
