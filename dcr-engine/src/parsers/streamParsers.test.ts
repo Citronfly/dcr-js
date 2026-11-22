@@ -85,7 +85,6 @@ const cases: Case[] = [
       expect(log.traces.t1[0].varName).toBe("x");
       expect(log.traces.t1[0].value).toBe(2.5);
     },
-    knownBugs: allParsers("writeEventLog writes 2.5 as <int>, and parseAttribute reads <int> with parseInt, giving 2"),
   },
   {
     name: "keeps an empty trace",
