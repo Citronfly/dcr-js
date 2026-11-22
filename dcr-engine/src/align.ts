@@ -449,7 +449,7 @@ export function alignTrace(
     // Event is enabled, execute it and remove it from trace
     if (traceLen > 0) {
       try {
-        for (const event of graph.labelMapInv[trace[0]]) {
+        for (const event of graph.labelMapInv[trace[0]] ?? []) {
           if (isEnabled(event, graph)) {
             const alignment = newGraphEnv(graph, () => {
               execute(event, graph);
@@ -491,7 +491,7 @@ export function alignTrace(
     if (pruning && maxCost === Infinity && context) {
       if (traceLen > 0) {
         let isGood = false;
-        for (const event of graph.labelMapInv[trace[0]]) {
+        for (const event of graph.labelMapInv[trace[0]] ?? []) {
           isGood = isGood || canBeExecuted(event, graph, context);
         }
         if (!isGood) {
