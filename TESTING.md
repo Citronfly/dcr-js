@@ -10,7 +10,7 @@ The project uses npm workspaces (`app`, `dcr-engine`, `modeler`) and Vitest. Ins
 | `npm run test:watch` | Re-runs tests on save |
 | `npm run coverage` | Runs the tests with coverage; HTML report in `coverage/index.html` |
 | `npx vitest run --project engine-unit` | Runs one project (see below) |
-| `npm run typecheck` | Type-checks `dcr-engine` and `app` |
+| `npm run typecheck` | Type-checks `dcr-engine`, `app` and the Vitest configs |
 | `npm run lint` | Lints `app` |
 
 CI (`.github/workflows/ci.yml`) runs typecheck, lint, tests with coverage, and the production build on every pull request.

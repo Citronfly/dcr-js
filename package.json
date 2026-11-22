@@ -9,7 +9,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit -p dcr-engine && npm exec -w app -- tsc -b",
+    "typecheck": "tsc --noEmit -p dcr-engine && tsc --noEmit -p . && npm exec -w app -- tsc -b",
     "lint": "npm run -w app lint"
   },
   "eslintConfig": {
