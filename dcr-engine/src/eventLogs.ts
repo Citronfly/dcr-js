@@ -221,7 +221,7 @@ export function writeEventLog(log: EventLog<RoleTrace>): string {
       if (event.varName !== undefined && event.value !== undefined) {
         const xesType =
           typeof event.value === "boolean" ? "boolean" :
-          typeof event.value === "number" ? "int" : "string";
+          typeof event.value === "number" ? (Number.isInteger(event.value) ? "int" : "float") : "string";
         (eventElem as any)[xesType] = (eventElem as any)[xesType]
           ? [...[].concat((eventElem as any)[xesType]), { "@key": event.varName, "@value": String(event.value) }]
           : { "@key": event.varName, "@value": String(event.value) };
