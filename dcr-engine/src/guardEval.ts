@@ -146,7 +146,7 @@ function feelEval(tokens: FEELToken[], store: VariableStore): boolean {
     if (tok.type === 'STRING') { consume(); return tok.value; }
     if (tok.type === 'TRUE')   { consume(); return true; }
     if (tok.type === 'FALSE')  { consume(); return false; }
-    if (tok.type === 'IDENT')  { consume(); return tok.value in store ? store[tok.value] as FEELValue : UNDEF; }
+    if (tok.type === 'IDENT')  { consume(); return Object.hasOwn(store, tok.value) ? store[tok.value] as FEELValue : UNDEF; }
     if (tok.type === 'ARITH' && (tok as { type: 'ARITH'; value: string }).value === '-') {
       consume();
       const v = parseAtom();

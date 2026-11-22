@@ -25,6 +25,22 @@ describe("evaluateGuard", () => {
     expect(evaluateGuard("y > 5", { x: 1 })).toBe(false);
     expect(evaluateGuard("not y > 5", { x: 1 })).toBe(true);
   });
+
+  it.each(["constructor", "toString", "hasOwnProperty"])(
+    "treats %s, which exists only on Object.prototype, as an unknown variable",
+    (name) => {
+      expect(evaluateGuard(name, {})).toBe(evaluateGuard("y", {}));
+      expect(evaluateGuard(name, {})).toBe(false);
+      expect(evaluateGuard(`not ${name}`, {})).toBe(true);
+      expect(evaluateGuard(`${name} > 5`, {})).toBe(false);
+    },
+  );
+
+  it("still reads a variable that is an own property of the store", () => {
+    expect(evaluateGuard("count > 5", { count: 10 })).toBe(true);
+    expect(evaluateGuard("count", { count: true })).toBe(true);
+    expect(evaluateGuard("constructor", { constructor: true })).toBe(true);
+  });
 });
 
 describe("validateGuardSyntax", () => {
