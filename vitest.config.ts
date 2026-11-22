@@ -1,4 +1,5 @@
 import { defineConfig } from "vitest/config";
+import { quickpickle } from "quickpickle";
 
 export default defineConfig({
   test: {
@@ -9,6 +10,16 @@ export default defineConfig({
           root: "./dcr-engine",
           environment: "node",
           include: ["src/**/*.test.ts"],
+        },
+      },
+      {
+        plugins: [quickpickle()],
+        test: {
+          name: "engine-features",
+          root: "./dcr-engine",
+          environment: "node",
+          include: ["features/**/*.feature"],
+          setupFiles: ["features/steps/dcr.steps.ts"],
         },
       },
     ],
