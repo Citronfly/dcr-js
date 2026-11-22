@@ -4,13 +4,9 @@ import styled from "styled-components";
 import type { RoleTrace } from "dcr-engine/src/types";
 import type { TraceClassification } from "../types";
 import { PartialViolationIcon } from "./ConformanceUtil";
+import { ResizablePanel } from "./ResizablePanel";
 
-const TraceWindow = styled.div<{ $hugLeft: boolean }>`
-  position: fixed;
-  top: 0;
-  left: ${(props) => (props.$hugLeft ? "0rem" : "30rem")};
-  height: 100vh;
-  box-shadow: 0px 0 5px 0px grey;
+const TraceWindow = styled(ResizablePanel)`
   display: flex;
   flex-direction: column;
   padding-top: 2rem;
@@ -19,7 +15,7 @@ const TraceWindow = styled.div<{ $hugLeft: boolean }>`
   background-color: gainsboro;
   box-sizing: border-box;
   overflow: scroll;
-  z-index: 4;
+  overflow-wrap: anywhere;
 `;
 
 const ResultsHeader = styled.h1`
@@ -30,6 +26,9 @@ const ResultsHeader = styled.h1`
   font-weight: normal;
   padding: 0.5rem 1rem 0.5rem 1rem;
   margin: 0;
+  & > svg {
+    flex-shrink: 0;
+  }
 `;
 
 const CloseTrace = styled(BiX)`
@@ -63,6 +62,7 @@ const ResetTrace = styled(BiReset)`
 const TraceNameInput = styled.input`
   font-size: 20px;
   width: fit-content;
+  min-width: 0;
   background: transparent;
   appearance: none;
   border: none;
@@ -202,7 +202,7 @@ const TraceView = ({
   );
 
   return (
-    <TraceWindow $hugLeft={!!hugLeft}>
+    <TraceWindow left={hugLeft ? "0rem" : "30rem"}>
       <ResultsHeader>
         {onEditTrace ? (
           <TraceNameInput
