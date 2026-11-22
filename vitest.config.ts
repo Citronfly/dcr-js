@@ -17,7 +17,7 @@ export default defineConfig({
       exclude: ["dcr-engine/src/extraction/**", "dcr-engine/src/prompts/**", "**/*.test.*", "app/src/test/**"],
       // Ratchet: the measured value rounded down. Raise when adding tests, never lower.
       thresholds: {
-        "dcr-engine/**": { lines: 18, statements: 19, functions: 24, branches: 17 },
+        "dcr-engine/**": { lines: 31, statements: 30, functions: 31, branches: 27 },
         "app/src/**": { lines: 0, statements: 0, functions: 0, branches: 0 },
         "modeler/lib/**": { lines: 18, statements: 18, functions: 15, branches: 3 },
       },
