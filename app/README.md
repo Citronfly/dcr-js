@@ -6,19 +6,21 @@ Interactive web-based tool in React that supports modelling, simulation, conform
 
 ## Building
 
-You need a [NodeJS](http://nodejs.org) development stack with [npm](https://npmjs.org) and [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) installed to build the project.
+You need [NodeJS](http://nodejs.org) (see `.nvmrc`) with [npm](https://npmjs.org) to build the project. The repository uses npm workspaces and a committed `package-lock.json`.
 
 To install all project dependencies execute in the root folder, _i.e._ /dcr-js/, the following:
 
 ```
-yarn
+npm ci
 ```
 
 To run the application locally run
 
 ```
-yarn start
+npm start
 ```
+
+For tests, see [TESTING.md](../TESTING.md).
 
 Which should serve the application to http://localhost:5173/dcr-js. Note that some errors related to the modeler loading might occur locally as everything is rendered twice. The harmless ones are appended with an explanation.
 
