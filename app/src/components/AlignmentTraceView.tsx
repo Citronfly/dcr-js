@@ -1,13 +1,9 @@
 import { BiCheck, BiQuestionMark, BiX } from "react-icons/bi";
 import styled from "styled-components";
 import type { RoleTrace, Trace } from "dcr-engine/src/types";
+import { ResizablePanel } from "../utilComponents/ResizablePanel";
 
-const TraceWindow = styled.div`
-  position: fixed;
-  top: 0;
-  left: 30rem;
-  height: 100vh;
-  box-shadow: 0px 0 5px 0px grey;
+const TraceWindow = styled(ResizablePanel)`
   display: flex;
   flex-direction: column;
   padding-top: 2rem;
@@ -16,7 +12,7 @@ const TraceWindow = styled.div`
   background-color: gainsboro;
   box-sizing: border-box;
   overflow: scroll;
-  z-index: 4;
+  overflow-wrap: anywhere;
 `;
 
 const ResultsHeader = styled.h1`
@@ -27,6 +23,9 @@ const ResultsHeader = styled.h1`
   font-weight: normal;
   padding: 0.5rem 1rem 0.5rem 1rem;
   margin: 0;
+  & > svg {
+    flex-shrink: 0;
+  }
 `;
 
 const CloseTrace = styled(BiX)`
@@ -108,7 +107,7 @@ const AlignmentTraceView = ({
   onCloseCallback,
 }: AlignmentTraceViewProps) => {
   return (
-    <TraceWindow>
+    <TraceWindow left="30rem">
       <ResultsHeader>
         {selectedTrace.traceName || selectedTrace.traceId}
         {resultIcon(selectedTrace.isPositive)}
